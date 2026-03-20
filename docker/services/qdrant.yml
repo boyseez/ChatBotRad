@@ -1,0 +1,16 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: cbr_qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+    volumes:
+      - ../volume/cbr_storage/qdrant:/qdrant/storage
+    networks:
+      - cbr_network
+    healthcheck:
+      test: ["CMD", "bash", "-c", ": < /dev/tcp/localhost/6333"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

@@ -1,0 +1,25 @@
+services:
+  cheshire-cat:
+    image: ghcr.io/cheshire-cat-ai/core:latest
+    container_name: cbr_core
+    restart: unless-stopped
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    ports:
+      - "1337:1337"
+    volumes:
+      - ../volume/cbr_storage/cat_static:/app/cat/static
+      - ../volume/cbr_storage/cat_metadata:/app/cat/data
+      - ../volume/cbr_storage/cat_custom:/app/cat/plugins
+    environment:
+      - CCAT_CORE_HOST=0.0.0.0
+      - CCAT_CORE_PORT=1337
+      - CCAT_QDRANT_HOST=qdrant
+      - CCAT_QDRANT_PORT=6333
+      - CCAT_VECTOR_STORE=qdrant
+      - CCAT_ADMIT_ADMIN_LOGINS=true
+    networks:
+      - cbr_network

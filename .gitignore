@@ -3,3 +3,8 @@
 .trae/
 .windsurf/
 .agent/
+
+# Docker Volumes
+docker/volume/
+.env
+*.log

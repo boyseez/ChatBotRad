@@ -6,22 +6,22 @@ Benvenuto nel progetto **ChatBootRad**. Di seguito trovi tutti gli indirizzi, le
 
 ## 🚀 Servizi Principali (GUI)
 
-| Servizio | URL Locale (Browser) | Descrizione |
-| :--- | :--- | :--- |
-| **Frontend (React)** | [http://localhost:5173](http://localhost:5173) | Interfaccia utente dell'applicazione. |
-| **Cheshire Cat Admin** | [http://localhost:1337/admin](http://localhost:1337/admin) | Console di controllo del Gatto (Plugin, LLM, Memoria). |
-| **Qdrant Dashboard** | [http://localhost:6333/dashboard](http://localhost:6333/dashboard) | Interfaccia per monitorare i vettori e le collezioni. |
-| **Mongo Express** | [http://localhost:8081](http://localhost:8081) | Manager grafico per i dati su MongoDB. |
-| **Cheshire Cat API** | [http://localhost:1337/docs](http://localhost:1337/docs) | Documentazione Swagger per sviluppatori. |
+| Servizio               | URL Locale (Browser)                                               | Descrizione |
+|:-----------------------|:-------------------------------------------------------------------| :--- |
+| **Frontend UI**        | [http://localhost:5173](http://localhost:5173)                     | Interfaccia React per l'utente finale (Hot-Reload attivo). |
+| **Cheshire Cat Admin** | [http://localhost:1337/admin](http://localhost:1337/admin)         | Console di controllo del Gatto (Plugin, LLM, Memoria). |
+| **Qdrant Dashboard**   | [http://localhost:6333/dashboard](http://localhost:6333/dashboard) | Interfaccia per monitorare i vettori e le collezioni. |
+| **Mongo GUI**          | [http://localhost:4321](http://localhost:4321)                     | Manager grafico per i dati su MongoDB. |
+| **Cheshire Cat API**   | [http://localhost:1337/docs](http://localhost:1337/docs)           | Documentazione Swagger per sviluppatori. |
 
 ---
 
 ## 🛠️ Credenziali e Connessioni
 
 ### 🍃 MongoDB
-- **Host Interno:** `mongo:27017`
-- **User/Password:** `admin` / `password`
-- **Accesso GUI:** Richiede login con `admin` / `password`.
+- **Host Interno:** `mongodb:27017`
+- **User/Password:** `admin` / `changeme`
+- **Accesso GUI:** Richiede login con `admin` / `changeme`.
 
 ### 🔍 Qdrant (Vector DB)
 - **Host Interno:** `qdrant:6333`
@@ -39,16 +39,19 @@ Tutti i dati persistenti e le configurazioni si trovano all'interno della cartel
 
 ---
 
-## ⚡ Comandi Rapidi (da eseguire nella cartella `docker/`)
+## ⚡ Comandi Rapidi (da eseguire nella root del progetto)
 
-1. **Riparazione Permessi (Ubuntu):**
-   `sudo chown -R 1000:1000 volume/cbr_storage && sudo chmod -R 775 volume/cbr_storage`
+1. **Generazione Ambiente:**
+   `./generate-env.sh` (Crea il file .env necessario per i percorsi assoluti)
 
-2. **Avvio Silenzioso:**
+2. **Riparazione Permessi (Ubuntu):**
+   `sudo chown -R 1000:1000 docker/volume/cbr_storage && sudo chmod -R 775 docker/volume/cbr_storage`
+
+3. **Avvio Silenzioso:**
    `docker compose up -d`
 
-3. **Vedere se ci sono errori:**
-   `docker compose logs -f cheshire-cat`
+4. **Vedere se ci sono errori:**
+   `docker compose logs -f cbr_frontend` (o `cbr_core` per il gatto)
 
-4. **Spegnimento Totale:**
+5. **Spegnimento Totale:**
    `docker compose down`

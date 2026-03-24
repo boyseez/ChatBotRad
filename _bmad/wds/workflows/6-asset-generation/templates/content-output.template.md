@@ -161,7 +161,7 @@ structural_order:
     purpose: "Emotional truth / Why user should care"
     content_elements:
       - order: 1
-        element: "{Opening hook}"
+        element: "{Opening hooks}"
         rationale: "{Why this opens}"
       - order: 2
         element: "{Validation or aspiration}"

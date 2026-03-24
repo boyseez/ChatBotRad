@@ -1,10 +1,31 @@
+# IDE & Editors
 .idea/
+.vscode/
+.DS_Store
+*.sw?
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# AI Agents & CLI
 .gemini/
 .trae/
 .windsurf/
 .agent/
 
-# Docker Volumes
-docker/volume/
+# Docker & Environment
 .env
+docker/volume/
 *.log
+
+# Frontend (React/Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/lerna-debug.log*

@@ -13,4 +13,5 @@ services:
       test: ["CMD", "bash", "-c", ": < /dev/tcp/localhost/6333"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10        # era 5, alzato a 10
+      start_period: 30s  # aspetta 30s prima di iniziare i controlli

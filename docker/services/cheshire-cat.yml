@@ -6,20 +6,15 @@ services:
     depends_on:
       qdrant:
         condition: service_healthy
-      mongo:
-        condition: service_healthy
     ports:
-      - "1337:1337"
+      - "1337:80"        # ← era 1337:1337, il container ascolta sulla 80
     volumes:
-      - ../volume/cbr_storage/cat_static:/app/cat/static
       - ../volume/cbr_storage/cat_metadata:/app/cat/data
       - ../volume/cbr_storage/cat_custom:/app/cat/plugins
     environment:
-      - CCAT_CORE_HOST=0.0.0.0
-      - CCAT_CORE_PORT=1337
-      - CCAT_QDRANT_HOST=qdrant
-      - CCAT_QDRANT_PORT=6333
-      - CCAT_VECTOR_STORE=qdrant
-      - CCAT_ADMIT_ADMIN_LOGINS=true
+      - CORE_HOST=0.0.0.0
+      - CORE_PORT=1337
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
     networks:
       - cbr_network

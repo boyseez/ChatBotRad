@@ -2,10 +2,9 @@ name: chatbootrad
 
 include:
   - docker/services/qdrant.yml
-  - docker/services/mongodb.yml
   - docker/services/cheshire-cat.yml
+  - docker/services/mongodb.yml
   - docker/services/frontend.yml
 
 networks:
   cbr_network:
-    driver: bridge

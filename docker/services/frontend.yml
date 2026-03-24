@@ -1,16 +1,18 @@
 services:
   frontend:
     build:
-      context: ../../frontend/ChatBotRad
-      dockerfile: Dockerfile
+      context: ../../frontend
+      dockerfile: Dockerfile.dev
     container_name: cbr_frontend
     restart: unless-stopped
     ports:
       - "5173:5173"
-    environment:
-      - VITE_CAT_URL=http://localhost:1337
+    volumes:
+      - ../../frontend:/app
+      - /app/node_modules
     networks:
       - cbr_network
-    volumes:
-      - ../../frontend/ChatBotRad:/app
-      - /app/node_modules
+    environment:
+      - VITE_LOG_LEVEL=trace
+      - VITE_LOG_ENABLED=true
+    # niente depends_on, parte subito

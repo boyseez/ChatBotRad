@@ -29,3 +29,25 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 frontend/pnpm-debug.log*
 frontend/lerna-debug.log*
+
+# Backend (Java/Spring Boot)
+backend/java/target/
+backend/java/.mvn/wrapper/maven-wrapper.jar
+backend/java/.idea/
+backend/java/*.iws
+backend/java/*.iml
+backend/java/*.ipr
+backend/java/HELP.md
+backend/java/build/
+backend/java/.apt_generated
+backend/java/.classpath
+backend/java/.factorypath
+backend/java/.project
+backend/java/.settings
+backend/java/.springBeans
+backend/java/.sts4-cache
+backend/java/nbproject/private/
+backend/java/nbbuild/
+backend/java/dist/
+backend/java/nbdist/
+backend/java/.nb-gradle/

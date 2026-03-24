@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: ../../backend/ChatBoot
+      dockerfile: Dockerfile.dev
+    container_name: cbr_backend
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    depends_on:
+      mongodb:
+        condition: service_started
+    volumes:
+      - ../../backend/ChatBoot:/app
+      - m2_cache:/root/.m2  # Volume dedicato per isolare Maven
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://admin:changeme@mongodb:27017/chatboot?authSource=admin
+      - SPRING_DATA_MONGODB_DATABASE=chatboot
+      - SERVER_PORT=8082
+    networks:
+      - cbr_network
+
+volumes:
+  m2_cache:

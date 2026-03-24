@@ -5,6 +5,6 @@ include:
   - docker/services/cheshire-cat.yml
   - docker/services/mongodb.yml
   - docker/services/frontend.yml
-
+  - docker/services/backend.yml
 networks:
   cbr_network:

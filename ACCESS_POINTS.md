@@ -9,6 +9,8 @@ Benvenuto nel progetto **ChatBootRad**. Di seguito trovi tutti gli indirizzi, le
 | Servizio               | URL Locale (Browser)                                               | Descrizione |
 |:-----------------------|:-------------------------------------------------------------------| :--- |
 | **Frontend UI**        | [http://localhost:5173](http://localhost:5173)                     | Interfaccia React per l'utente finale (Hot-Reload attivo). |
+| **Backend Java**       | [http://localhost:8082](http://localhost:8082)                     | API Core del progetto (Spring Boot). |
+| **Backend Swagger**    | [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html) | Documentazione interattiva API Java. |
 | **Cheshire Cat Admin** | [http://localhost:1337/admin](http://localhost:1337/admin)         | Console di controllo del Gatto (Plugin, LLM, Memoria). |
 | **Qdrant Dashboard**   | [http://localhost:6333/dashboard](http://localhost:6333/dashboard) | Interfaccia per monitorare i vettori e le collezioni. |
 | **Mongo GUI**          | [http://localhost:4321](http://localhost:4321)                     | Manager grafico per i dati su MongoDB. |
@@ -20,8 +22,10 @@ Benvenuto nel progetto **ChatBootRad**. Di seguito trovi tutti gli indirizzi, le
 
 ### 🍃 MongoDB
 - **Host Interno:** `mongodb:27017`
+- **Host Esterno:** `localhost:27017`
 - **User/Password:** `admin` / `changeme`
-- **Accesso GUI:** Richiede login con `admin` / `changeme`.
+- **Stringa Connessione Esterna:** `mongodb://admin:changeme@localhost:27017/`
+- **Accesso GUI:** Accessibile su [http://localhost:4321](http://localhost:4321).
 
 ### 🔍 Qdrant (Vector DB)
 - **Host Interno:** `qdrant:6333`
@@ -50,8 +54,11 @@ Tutti i dati persistenti e le configurazioni si trovano all'interno della cartel
 3. **Avvio Silenzioso:**
    `docker compose up -d`
 
-4. **Vedere se ci sono errori:**
-   `docker compose logs -f cbr_frontend` (o `cbr_core` per il gatto)
+4. **Re-build Backend (senza cache):**
+   `docker compose up -d --build --no-deps backend`
 
-5. **Spegnimento Totale:**
+5. **Vedere se ci sono errori:**
+   `docker compose logs -f backend` (o `cheshire-cat` per il gatto)
+
+6. **Spegnimento Totale:**
    `docker compose down`

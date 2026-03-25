@@ -1,6 +1,5 @@
 import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import Home from "@/Home.tsx";
-import LoginPage from "@/page/login-page.tsx";
 import DashboardPage from "./page/dashboard-page";
 import { useLogger } from "@/util/useLogger";
 import { useEffect } from "react";

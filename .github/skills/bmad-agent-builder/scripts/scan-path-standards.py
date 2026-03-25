@@ -69,7 +69,7 @@ def scan_file(filepath: Path, skip_fenced: bool = True) -> list[dict]:
         (ABSOLUTE_PATH_RE, 'absolute-path', 'high',
          'Absolute path found — not portable across machines'),
         (HOME_PATH_RE, 'absolute-path', 'high',
-         'Home directory path (~/) found — environment-specific'),
+         'Home.tsx directory path (~/) found — environment-specific'),
         (RELATIVE_DOT_RE, 'relative-prefix', 'medium',
          'Parent directory reference (../) found — fragile, breaks with reorganization'),
         (RELATIVE_DOTSLASH_RE, 'relative-prefix', 'medium',

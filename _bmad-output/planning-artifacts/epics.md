@@ -65,40 +65,31 @@ input_source: "brainstorming-session-2026-03-18_10-21-58.md"
 
 ## Epic Breakdown by Version
 
-### VERSION 1.0 — MVP: Retrieval-Only RAG + Basic Tracciabilità
+### VERSION 1.0 — MVP: Retrieval-Only RAG + Identity Management
 
-**Epic 1.1: Multimodal Retrieval Engine (PDF + Video)**
-- Chunking intelligente di PDF
-- Estrazione video metadata (timestamps)
-- Vector embedding con Qdrant local
-- Retrieval con ranking per relevance
+**Epic 1.1: Multimodal Retrieval Engine (Cheshire Cat AI)**
+- Setup Cheshire Cat Core in Docker con Qdrant
+- Configurazione plugin per chunking PDF e Video
+- Esposizione endpoint per il consumo da parte del Backend
+- AC: Il Cat processa e indicizza correttamente le risorse multimodali
 
-**Epic 1.2: Tracciabilità Completa**
-- Annotazione di ogni risposta con fonte (PDF page/Video timestamp)
-- UI per visualizzare link to source
-- Admin view di audit trail conversazioni
+**Epic 1.2: Identity & Security (Keycloak & Spring Security)**
+- Configurazione Keycloak Realm e Client OIDC
+- Implementazione Security Filter Chain in Spring Boot per validazione JWT
+- Integrazione Keycloak adapter nel Frontend React per login/logout
+- AC: Le rotte del Backend e del Frontend sono protette e accessibili solo con token validi
 
-**Epic 1.3: Context-Aware Filtering**
-- Riconoscimento applicativo (Salesforce/SAP/etc)
-- Filtraggio manuali per applicativo
-- Knowledge base per mapping applicativo → manuali
+**Epic 1.3: Spring Boot Communication Gateway**
+- Sviluppo di proxy/client WebFlux per la comunicazione bidirezionale (REST/WS) con Cheshire Cat
+- Gestione della persistenza su MongoDB (Sessioni, History, Metadata documenti)
+- Orchestrazione del flusso: Frontend -> Spring Boot (Auth check) -> Cheshire Cat -> Spring Boot -> Frontend
+- AC: Flusso di messaggi end-to-end funzionante e tracciato su MongoDB
 
-**Epic 1.4: Zero-Hallucination Validation**
-- Matching score tra risposta e chunk sorgente
-- Reject respons if confidence < threshold
-- Fallback "non so, consulta admin" message
-
-**Epic 1.5: Chatbot UI + Chrome Plugin**
-- Web interface per MVP
-- Chrome plugin adapter
-- Message formatting (text + video embed + screenshots)
-- Conversation history storage
-
-**Epic 1.6: Docker + LiteLLM Deployment**
-- Docker compose per local setup (Qdrant + API)
-- LiteLLM gateway config
-- Google Gemini API integration (~€20/mese)
-- Infra fallback cloud (Google Cloud Storage)
+**Epic 1.4: UI & Dashboard Integration**
+- Sviluppo Dashboard React integrata con gli endpoint Spring Boot
+- Visualizzazione risposte con tracciabilità (fonte PDF/Video) fornita dal Cat via Backend
+- Interfaccia di amministrazione per il caricamento e monitoraggio delle risorse
+- AC: Interfaccia utente completa, sicura e reattiva
 
 ---
 

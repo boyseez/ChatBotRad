@@ -15,4 +15,5 @@ services:
     environment:
       - VITE_LOG_LEVEL=trace
       - VITE_LOG_ENABLED=true
+    command: sh -c "npm install && npm run dev"
     # niente depends_on, parte subito

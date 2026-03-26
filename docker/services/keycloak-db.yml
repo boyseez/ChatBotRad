@@ -1,0 +1,22 @@
+services:
+  keycloak-db:
+    image: postgres:16-alpine
+    container_name: cbr_keycloak_db
+    environment:
+      POSTGRES_DB: ${KC_DB_NAME:-keycloak}
+      POSTGRES_USER: ${KC_DB_USERNAME:-keycloak}
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD:-keycloak_pass}
+    ports:
+      - "5433:5432"
+    networks:
+      - cbr_network
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${KC_DB_USERNAME:-keycloak} -d ${KC_DB_NAME:-keycloak}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  keycloak_db_data:

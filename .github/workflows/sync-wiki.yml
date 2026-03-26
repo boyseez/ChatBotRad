@@ -6,22 +6,35 @@ on:
       - main
     paths:
       - 'ACCESS_POINTS.md'
-  workflow_dispatch: # Permette l'esecuzione manuale
+  workflow_dispatch:
 
 jobs:
   sync-wiki:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout Source Repo
         uses: actions/checkout@v4
 
-      - name: Sync ACCESS_POINTS to Wiki
-        uses: Andrew-Chen-Wang/github-wiki-action@v4
-        with:
-          strategy: 'replace'
-          # Specifichiamo che vogliamo sincronizzare ACCESS_POINTS.md come Home.md della Wiki
-          path: 'ACCESS_POINTS.md'
-          # Questo lo trasformerà in Home.md sulla Wiki (che è la pagina principale)
-          # Se preferisci un nome diverso, specificalo qui.
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Sync to Wiki
+        run: |
+          # Configura l'utente Git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Clona il repository della Wiki (usa il GITHUB_TOKEN per l'autenticazione)
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git /tmp/wiki
+          
+          # Copia ACCESS_POINTS.md come Home.md della Wiki
+          cp ACCESS_POINTS.md /tmp/wiki/Home.md
+          
+          # Entra nella cartella della Wiki e fai il push delle modifiche
+          cd /tmp/wiki
+          git add Home.md
+          
+          # Esegui il commit solo se ci sono cambiamenti
+          if git diff-index --quiet HEAD --; then
+            echo "Nessuna modifica da sincronizzare."
+          else
+            git commit -m "Update Wiki from ACCESS_POINTS.md (automated)"
+            git push origin master || git push origin main
+          fi

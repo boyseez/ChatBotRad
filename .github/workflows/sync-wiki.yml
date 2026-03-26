@@ -1,0 +1,27 @@
+name: Sync Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ACCESS_POINTS.md'
+  workflow_dispatch: # Permette l'esecuzione manuale
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Sync ACCESS_POINTS to Wiki
+        uses: Andrew-Chen-Wang/github-wiki-action@v4
+        with:
+          strategy: 'replace'
+          # Specifichiamo che vogliamo sincronizzare ACCESS_POINTS.md come Home.md della Wiki
+          path: 'ACCESS_POINTS.md'
+          # Questo lo trasformerà in Home.md sulla Wiki (che è la pagina principale)
+          # Se preferisci un nome diverso, specificalo qui.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

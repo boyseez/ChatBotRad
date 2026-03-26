@@ -1,4 +1,4 @@
-# 🐾 ChatBootRad - Punti di Accesso ai ServiziXXX
+# 🐾 ChatBootRad - Punti di Accesso ai Servizi
 
 Benvenuto nel progetto **ChatBootRad**. Di seguito trovi tutti gli indirizzi, le credenziali e la struttura delle cartelle per gestire l'infrastruttura Docker.
 

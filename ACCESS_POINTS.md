@@ -11,6 +11,7 @@ Benvenuto nel progetto **ChatBootRad**. Di seguito trovi tutti gli indirizzi, le
 | **Frontend UI**        | [http://localhost:5173](http://localhost:5173)                     | Interfaccia React per l'utente finale (Hot-Reload attivo). |
 | **Backend Java**       | [http://localhost:8082](http://localhost:8082)                     | API Core del progetto (Spring Boot). |
 | **Backend Swagger**    | [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html) | Documentazione interattiva API Java. |
+| **Keycloak Admin**     | [http://localhost:8888](http://localhost:8888)                     | Console Identity Provider (Auth, Realm, Client). |
 | **Cheshire Cat Admin** | [http://localhost:1337/admin](http://localhost:1337/admin)         | Console di controllo del Gatto (Plugin, LLM, Memoria). |
 | **Qdrant Dashboard**   | [http://localhost:6333/dashboard](http://localhost:6333/dashboard) | Interfaccia per monitorare i vettori e le collezioni. |
 | **Mongo GUI**          | [http://localhost:4321](http://localhost:4321)                     | Manager grafico per i dati su MongoDB. |
@@ -26,6 +27,30 @@ Benvenuto nel progetto **ChatBootRad**. Di seguito trovi tutti gli indirizzi, le
 - **User/Password:** `admin` / `changeme`
 - **Stringa Connessione Esterna:** `mongodb://admin:changeme@localhost:27017/`
 - **Accesso GUI:** Accessibile su [http://localhost:4321](http://localhost:4321).
+
+### 🔑 Keycloak (Identity Provider)
+- **Host Interno:** `keycloak:8080`
+- **Host Esterno:** [http://localhost:8888](http://localhost:8888)
+- **Admin Console:** `admin` / `admin_pass`
+- **Realm:** `ChatBot`
+
+#### 🛡️ Clients OIDC
+| Client ID | Type | Secret / Access |
+| :--- | :--- | :--- |
+| `chatbot-frontend` | Public | Accesso Libero (Redirect: `http://localhost:5173/*`) |
+| `chatbot-backend` | Confidential | `chatbot-backend-secret-12345` |
+
+#### 👥 Utenti di Test (Realm ChatBot)
+| Username | Password | Ruoli |
+| :--- | :--- | :--- |
+| `admin-user` | `adminpassword123` | `ROLE_ADMIN`, `ROLE_USER` |
+| `test-user` | `password123` | `ROLE_USER` |
+
+### 🔑 Keycloak (PostgreSQL)
+- **Host Interno:** `keycloak-db:5432`
+- **Host Esterno:** `localhost:5433`
+- **User/Password:** `keycloak` / `keycloak_db_pass`
+- **Stringa Connessione Esterna:** `jdbc:postgresql://localhost:5433/keycloak`
 
 ### 🔍 Qdrant (Vector DB)
 - **Host Interno:** `qdrant:6333`

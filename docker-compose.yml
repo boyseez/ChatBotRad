@@ -6,5 +6,9 @@ include:
   - docker/services/mongodb.yml
   - docker/services/frontend.yml
   - docker/services/backend.yml
+  - docker/services/keycloak-db.yml
+  - docker/services/keycloak.yml
+
 networks:
   cbr_network:
+    driver: bridge

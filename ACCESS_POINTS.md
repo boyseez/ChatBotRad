@@ -15,11 +15,19 @@ Benvenuto nel progetto **ChatBootRad**. Di seguito trovi tutti gli indirizzi, le
 | **Cheshire Cat Admin** | [http://localhost:1337/admin](http://localhost:1337/admin)         | Console di controllo del Gatto (Plugin, LLM, Memoria). |
 | **Qdrant Dashboard**   | [http://localhost:6333/dashboard](http://localhost:6333/dashboard) | Interfaccia per monitorare i vettori e le collezioni. |
 | **Mongo GUI**          | [http://localhost:4321](http://localhost:4321)                     | Manager grafico per i dati su MongoDB. |
+| **Kibana (Logs)**      | [http://localhost:5601](http://localhost:5601)                     | Dashboard per visualizzazione e analisi dei log. |
+| **Elasticsearch**      | [http://localhost:9200](http://localhost:9200)                     | Motore di ricerca e database dei log. |
 | **Cheshire Cat API**   | [http://localhost:1337/docs](http://localhost:1337/docs)           | Documentazione Swagger per sviluppatori. |
 
 ---
 
 ## 🛠️ Credenziali e Connessioni
+
+### 📊 ELK Stack (Logging)
+- **Kibana:** [http://localhost:5601](http://localhost:5601) (Senza autenticazione in dev)
+- **Elasticsearch Host:** `http://localhost:9200`
+- **Logstash Config:** `docker/services/logstash/pipeline/logstash.conf`
+- **Index Pattern Consigliato:** `chatboot-logs-*`
 
 ### 🍃 MongoDB
 - **Host Interno:** `mongodb:27017`

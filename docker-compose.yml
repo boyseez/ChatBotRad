@@ -8,6 +8,7 @@ include:
   - docker/services/backend.yml
   - docker/services/keycloak-db.yml
   - docker/services/keycloak.yml
+  - docker/services/elk.yml
 
 networks:
   cbr_network:

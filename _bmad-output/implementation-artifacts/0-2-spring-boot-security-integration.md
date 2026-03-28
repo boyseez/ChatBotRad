@@ -54,7 +54,8 @@
 ---
 
 ## 5. Story Completion Status
-- [ ] SecurityWebFilterChain configured
-- [ ] JWT Decoder functional
-- [ ] Keycloak Roles to Authorities mapping complete
-- [ ] CORS configured for Frontend
+- [x] SecurityWebFilterChain configured
+- [x] JWT Decoder functional
+- [x] Keycloak Roles to Authorities mapping complete
+- [x] CORS configured for Frontend
+- [x] Test endpoints and Swagger integration complete

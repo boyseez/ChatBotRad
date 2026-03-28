@@ -7,7 +7,7 @@ services:
       qdrant:
         condition: service_healthy
     ports:
-      - "1337:80"        # ← era 1337:1337, il container ascolta sulla 80
+      - "1337:80"        # Ripristinato: il container ascolta sulla 80
     volumes:
       - ../volume/cbr_storage/cat_metadata:/app/cat/data
       - ../volume/cbr_storage/cat_custom:/app/cat/plugins

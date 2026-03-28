@@ -73,11 +73,12 @@ input_source: "brainstorming-session-2026-03-18_10-21-58.md"
 - Esposizione endpoint per il consumo da parte del Backend
 - AC: Il Cat processa e indicizza correttamente le risorse multimodali
 
-**Epic 1.2: Identity & Security (Keycloak & Spring Security)**
-- Configurazione Keycloak Realm e Client OIDC
-- Implementazione Security Filter Chain in Spring Boot per validazione JWT
-- Integrazione Keycloak adapter nel Frontend React per login/logout
-- AC: Le rotte del Backend e del Frontend sono protette e accessibili solo con token validi
+**Epic 1.2: Identity & Security (Keycloak & Spring Security - BFF Pattern)**
+- Configurazione Keycloak Realm, Client OIDC (Confidential) e Scopes
+- Implementazione OAuth2 Login in Spring Boot (Backend as Client)
+- Gestione della sessione tramite Cookie HttpOnly/Secure e CSRF protection
+- Esposizione endpoint `/api/v1/auth/me` per il Frontend
+- AC: Il Backend gestisce l'autenticazione in modo opaco per il browser; il Frontend accede alle API protette tramite sessione cookie
 
 **Epic 1.3: Spring Boot Communication Gateway**
 - Sviluppo di proxy/client WebFlux per la comunicazione bidirezionale (REST/WS) con Cheshire Cat

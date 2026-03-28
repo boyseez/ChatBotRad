@@ -79,8 +79,8 @@ Container-Native Full-Stack RAG Architecture (Microservices in Docker).
 
 ### Authentication & Security
 - **Identity Provider:** **Keycloak** (OIDC).
-- **Pattern:** Spring Boot agisce come **OAuth2 Resource Server** validando i JWT emessi da Keycloak.
-- **Frontend Auth:** Integrazione con Keycloak via OIDC Public Client pattern (token gestito via React Context/Redux).
+- **Pattern:** **BFF (Backend For Frontend)**. Spring Boot agisce come **OAuth2 Client** e **Resource Server**. Gestisce l'intero flusso Authorization Code, scambia il codice per i token e mantiene la sessione sul Backend.
+- **Frontend Auth:** Nessun token JWT nel browser. Autenticazione basata su **Sessione Cookie (HttpOnly/Secure/SameSite=Strict)** gestita dal Backend BFF. Il Frontend interroga l'endpoint `/api/v1/auth/me` per conoscere lo stato dell'utente.
 
 ### API & Communication Patterns
 - **Protocol:** RESTful via **Spring WebFlux** (Non-blocking).

@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 
 /**
  * Livelli disponibili per il logger, in ordine crescente di severità.
@@ -345,16 +345,16 @@ export function useLogger(namespace: string = "App", options: LoggerOptions = {}
     log("info", "Console pulita");
   }, [log]);
 
-  return {
-    trace:   useCallback((m, d) => log("trace",   m, d), [log]),
-    debug:   useCallback((m, d) => log("debug",   m, d), [log]),
-    info:    useCallback((m, d) => log("info",    m, d), [log]),
-    success: useCallback((m, d) => log("success", m, d), [log]),
-    warn:    useCallback((m, d) => log("warn",    m, d), [log]),
-    error:   useCallback((m, d) => log("error",   m, d), [log]),
+  return React.useMemo(() => ({
+    trace:   (m: string, d?: unknown) => log("trace",   m, d),
+    debug:   (m: string, d?: unknown) => log("debug",   m, d),
+    info:    (m: string, d?: unknown) => log("info",    m, d),
+    success: (m: string, d?: unknown) => log("success", m, d),
+    warn:    (m: string, d?: unknown) => log("warn",    m, d),
+    error:   (m: string, d?: unknown) => log("error",   m, d),
     group,
     time,
     history,
     clear,
-  };
-}
+  }), [log, group, time, history, clear]);
+  }

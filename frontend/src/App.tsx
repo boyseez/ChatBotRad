@@ -1,57 +1,103 @@
-import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
-import Home from "@/Home.tsx";
-import DashboardPage from "./page/dashboard-page";
-import { useLogger } from "@/util/useLogger";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useEffect } from "react";
+import LoginPage from "@/features/auth/login-page";
+import AdminHomePage from "@/features/auth/admin-home-page";
+import UserHomePage from "@/features/auth/user-home-page";
+import { useBffAuth } from "@/features/auth/useBffAuth";
+import { isMockEnabled } from "@/services/api";
+import { useLogger } from "@/hooks/use-logger";
+import { LottieLoader } from "@/components/ui/lottie-loader";
 
-export function App() {
-  const logger = useLogger("App");
+/**
+ * Componente per proteggere le rotte che richiedono autenticazione.
+ */
+function ProtectedRoute({ children, role }: { children: React.ReactNode, role?: string }) {
+  const { isAuthenticated, loading, user } = useBffAuth();
 
-  useEffect(() => {
-    // ─── Livelli di Log ───────────────────────────────────────────────────
-    logger.trace("Dettaglio granulare (es. variabili interne)");
-    logger.debug("Informazioni di debug per lo sviluppo");
-    logger.info("Messaggio informativo generale");
-    logger.success("Operazione completata con successo!");
-    logger.warn("Avvertimento: qualcosa non è ottimale");
-    logger.error("Errore critico rilevato", { error: "Dettaglio errore" });
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-background">
+        <LottieLoader message="Verifica sessione in corso..." />
+      </div>
+    );
+  }
 
-    // ─── Utility ──────────────────────────────────────────────────────────
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-    // 1. Gruppi (Raggruppa i log nella console del browser)
-    logger.group("Inizializzazione Moduli", () => {
-      logger.debug("Modulo A caricato");
-      logger.debug("Modulo B caricato");
-    });
+  if (role && !user?.roles?.includes(role)) {
+    return <Navigate to="/" replace />;
+  }
 
-    // 2. Timer (Misura quanto tempo impiega un blocco di codice)
-    const stopTimer = logger.time("Richiesta API");
-    setTimeout(() => {
-      stopTimer(); // Stampa il tempo trascorso
-    }, 200);
-
-    // 3. History e Clear
-    console.log("Storico log finora:", logger.history());
-    // logger.clear(); // Pulisce la console e lo storico se necessario
-
-  }, [logger]);
-
-  return (
-
-      <BrowserRouter>
- <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/login">login</Link> |{" "}
-        <Link to="/dashboard">Dashboard</Link>
-      </nav>
-
-      {/* Routes */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-      </Routes>
-      </BrowserRouter>
-  )
+  return <>{children}</>;
 }
 
-export default App
+export function App() {
+  const { isAuthenticated, loading, user } = useBffAuth();
+  const logger = useLogger("System");
+
+  useEffect(() => {
+    if (isMockEnabled) {
+      logger.warn("API MODE: MOCK (Simulazione attiva)");
+    } else {
+      logger.success("API MODE: REAL (Connessione al Backend)");
+    }
+  }, [logger]);
+
+  // Determina la home corretta in base al ruolo
+  const getHomeRoute = () => {
+    if (!isAuthenticated) return "/login";
+    return user?.roles?.includes("ROLE_ADMIN") ? "/admin" : "/home";
+  };
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Reindirizzamento dinamico della Root */}
+        <Route path="/" element={
+          loading ? (
+            <div className="flex h-screen items-center justify-center bg-background">
+              <LottieLoader message="Inizializzazione ChatBot..." />
+            </div>
+          ) : (
+            <Navigate to={getHomeRoute()} replace />
+          )
+        } />
+
+        {/* Rotta Pubblica - Accessibile anche durante il loading della sessione per permettere al form di mostrare i propri stati */}
+        <Route 
+          path="/login" 
+          element={
+            !loading && isAuthenticated ? <Navigate to={getHomeRoute()} replace /> : <LoginPage />
+          } 
+        />
+
+        {/* Rotta protetta Admin */}
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute role="ROLE_ADMIN">
+              <AdminHomePage />
+            </ProtectedRoute>
+          } 
+        />
+
+        {/* Rotta protetta User standard */}
+        <Route 
+          path="/home" 
+          element={
+            <ProtectedRoute>
+              <UserHomePage />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;

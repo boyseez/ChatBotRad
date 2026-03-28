@@ -15,5 +15,7 @@ services:
     environment:
       - VITE_LOG_LEVEL=trace
       - VITE_LOG_ENABLED=true
+      - VITE_USE_MOCKS=true
+      - VITE_APP_COMPANY_NAME=${COMPANY_NAME:-ChatBot Enterprise}
     command: sh -c "npm install && npm run dev"
     # niente depends_on, parte subito

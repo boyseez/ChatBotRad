@@ -59,3 +59,4 @@
 - [x] Keycloak Roles to Authorities mapping complete
 - [x] CORS configured for Frontend
 - [x] Test endpoints and Swagger integration complete
+- [x] Integration tests for RBAC and Auth successful

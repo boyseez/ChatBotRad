@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +25,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -33,7 +34,6 @@ export function LoginForm({
   const navigate = useNavigate();
   const logger = useLogger("LoginForm");
 
-  // Inizializzazione React Hook Form con resolver Zod
   const {
     register,
     handleSubmit,
@@ -52,25 +52,17 @@ export function LoginForm({
     dispatch(setAuthStart());
 
     try {
-      logger.debug("Tentativo di login per:", values.username);
       const response = await api.post("/auth/login", { 
         username: values.username, 
         password: values.password 
       });
       
       if (response.data) {
-        logger.success("Login completato con successo", response.data);
         dispatch(setAuthSuccess(response.data));
-        
-        if (response.data.roles.includes("ROLE_ADMIN")) {
-          navigate("/admin");
-        } else {
-          navigate("/home");
-        }
+        navigate(response.data.roles.includes("ROLE_ADMIN") ? "/admin" : "/home");
       }
     } catch (error: any) {
-      const msg = error.response?.data?.message || "Credenziali non valide o errore di rete";
-      logger.error("Fallimento login", error);
+      const msg = error.response?.data?.message || t("auth.error_invalid");
       setServerError(msg);
       dispatch(setAuthFailure(msg));
     } finally {
@@ -82,9 +74,9 @@ export function LoginForm({
     <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleSubmit(onFormSubmit)}>
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold italic tracking-tight">Accedi al tuo account</h1>
+          <h1 className="text-2xl font-bold italic tracking-tight">{t("auth.login_title")}</h1>
           <p className="text-sm text-balance text-muted-foreground">
-            Inserisci qui sotto le tue credenziali per accedere.
+            {t("auth.login_subtitle")}
           </p>
         </div>
         
@@ -95,26 +87,23 @@ export function LoginForm({
         )}
 
         <Field>
-          <FieldLabel htmlFor="username">Username</FieldLabel>
+          <FieldLabel htmlFor="username">{t("auth.username")}</FieldLabel>
           <Input 
             id="username" 
             placeholder="admin o user" 
             autoComplete="username"
             {...register("username")}
             disabled={isPending}
-            className={cn(errors.username && "border-destructive ring-destructive/20 focus-visible:ring-destructive/20")}
+            className={cn(errors.username && "border-destructive ring-destructive/20")}
           />
           {errors.username && <FieldError>{errors.username.message}</FieldError>}
         </Field>
 
         <Field>
           <div className="flex items-center">
-            <FieldLabel htmlFor="password">Password</FieldLabel>
-            <a
-              href="#"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Hai dimenticato la password?
+            <FieldLabel htmlFor="password">{t("auth.password")}</FieldLabel>
+            <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
+              {t("auth.forgot_password")}
             </a>
           </div>
           <div className="relative">
@@ -124,41 +113,35 @@ export function LoginForm({
               autoComplete="current-password"
               {...register("password")}
               disabled={isPending}
-              className={cn(
-                "pr-10",
-                errors.password && "border-destructive ring-destructive/20 focus-visible:ring-destructive/20"
-              )}
+              className={cn("pr-10", errors.password && "border-destructive ring-destructive/20")}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors outline-none focus:text-primary"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors outline-none"
               disabled={isPending}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              <span className="sr-only">
-                {showPassword ? "Nascondi password" : "Mostra password"}
-              </span>
             </button>
           </div>
           {errors.password && <FieldError>{errors.password.message}</FieldError>}
         </Field>
 
         <Field>
-          <Button type="submit" disabled={isPending} className="font-bold">
+          <Button type="submit" disabled={isPending} className="font-bold text-lg h-11">
             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isPending ? "Accesso in corso..." : "Accedi"}
+            {isPending ? t("auth.logging_in") : t("auth.login_button")}
           </Button>
         </Field>
         
-        <FieldSeparator>Oppure</FieldSeparator>
+        <FieldSeparator>{t("layout.confirm_delete_all") ? "OR" : "OPPURE"}</FieldSeparator>
         
         <Field>
-          <Button variant="outline" type="button" disabled={true}>
-            SSO Aziendale (Keycloak)
+          <Button variant="outline" type="button" disabled={true} className="h-11">
+            {t("auth.sso_button")}
           </Button>
-          <FieldDescription className="text-center italic">
-            Configura VITE_USE_MOCKS=true per testare con username 'admin' o 'user'.
+          <FieldDescription className="text-center italic text-[10px]">
+            {t("auth.mock_info")}
           </FieldDescription>
         </Field>
       </FieldGroup>

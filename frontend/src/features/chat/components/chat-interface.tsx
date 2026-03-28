@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import type { RootState } from "@/store";
 import { addMessage } from "@/store/slices/chatSlice";
 import { Button } from "@/components/ui/button";
@@ -41,6 +42,7 @@ function VideoPreview({ url }: { url: string }) {
 }
 
 export function ChatInterface() {
+  const { t } = useTranslation();
   const { user } = useSelector((state: RootState) => state.auth);
   const { activeChatId, messages, loading } = useSelector((state: RootState) => state.chat);
   const dispatch = useDispatch();
@@ -74,12 +76,11 @@ export function ChatInterface() {
     setInput("");
     setIsTyping(true);
 
-    // Logica di risposta Mock basata sul testo
     setTimeout(() => {
       let botMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: `Analisi completata per la tua richiesta.`,
+        content: t("chat.analysis_complete"),
         timestamp: new Date().toISOString(),
         type: "text"
       };
@@ -87,15 +88,15 @@ export function ChatInterface() {
       const lowerText = text.toLowerCase();
 
       if (lowerText.includes("video")) {
-        botMessage.content = "Ecco il video tutorial configurato al secondo 38:";
+        botMessage.content = t("chat.video_title");
         botMessage.type = "video";
         botMessage.videoUrl = "https://www.youtube.com/watch?v=aqz-KE-bpKQ";
       } else if (lowerText.includes("riferimenti")) {
-        botMessage.content = "Ho trovato le informazioni richieste nei seguenti documenti:";
+        botMessage.content = t("chat.reference_title");
         botMessage.type = "reference";
-        botMessage.references = ["Manuale_Tecnico_X1.pdf", "Guida_Rapida.pdf", "Specifiche_2026.pdf"];
+        botMessage.references = ["Manuale_Tecnico.pdf", "Guida.pdf"];
       } else {
-        botMessage.content = `Hai scritto: "${text}". Questa è una risposta standard del bot. Prova a scrivere 'video' o 'riferimenti'!`;
+        botMessage.content = `${t("chat.analysis_complete")} (${text})`;
       }
 
       dispatch(addMessage(botMessage));
@@ -106,7 +107,7 @@ export function ChatInterface() {
   if (loading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <LottieLoader message="Caricamento conversazione..." />
+        <LottieLoader message={t("chat.typing") + "..."} />
       </div>
     );
   }
@@ -114,24 +115,22 @@ export function ChatInterface() {
   return (
     <div className="flex flex-col w-full h-full max-w-5xl mx-auto bg-background border rounded-2xl shadow-xl overflow-hidden min-h-0 relative">
       
-      {/* HEADER */}
       <div className="px-6 py-4 border-b bg-muted/5 flex items-center justify-between shrink-0 h-16">
         <div className="flex items-center gap-3">
           <div className="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
           <h3 className="text-sm font-bold tracking-tight uppercase">
-            {activeChatId ? `Conversazione #${activeChatId}` : 'Nuova Chat'}
+            {activeChatId ? `${t("layout.new_conversation")} #${activeChatId}` : t("layout.new_conversation")}
           </h3>
         </div>
       </div>
 
-      {/* AREA MESSAGGI */}
       <div className="flex-1 min-h-0 relative">
         <ScrollArea className="h-full w-full" ref={scrollRef}>
           <div className="flex flex-col gap-8 p-6 pb-20">
             {messages.length === 0 && !isTyping && (
               <div className="flex flex-col items-center justify-center h-full mt-20 opacity-20 space-y-4 text-center px-10">
                 <Bot className="h-16 w-16" />
-                <p className="text-lg font-medium italic">Scrivi 'video' per vedere un video o 'riferimenti' per i manuali PDF.</p>
+                <p className="text-lg font-medium italic">{t("chat.new_chat_desc")}</p>
               </div>
             )}
             
@@ -180,11 +179,11 @@ export function ChatInterface() {
             ))}
             
             {isTyping && (
-              <div className="flex items-start gap-4">
-                <Avatar className="mt-1 border shrink-0 h-9 w-9 bg-primary/10 text-primary">
+              <div className="flex items-start gap-4 animate-in fade-in duration-300">
+                <Avatar className="mt-1 border shrink-0 h-9 w-9 bg-primary/10 text-primary border-primary/20">
                   <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
                 </Avatar>
-                <div className="bg-muted/30 rounded-2xl rounded-tl-none px-5 py-4 flex gap-1.5 items-center border">
+                <div className="bg-muted/30 rounded-2xl rounded-tl-none px-5 py-4 flex gap-1.5 items-center border border-border/50">
                   <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce" />
                   <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
                   <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
@@ -195,14 +194,13 @@ export function ChatInterface() {
         </ScrollArea>
       </div>
 
-      {/* FOOTER INPUT */}
       <div className="shrink-0 p-6 border-t bg-background shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
         <div className="flex items-center gap-3 bg-muted/40 border border-border/60 rounded-2xl p-1.5 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
           <Button variant="ghost" size="icon" className="text-muted-foreground shrink-0 rounded-xl hover:bg-background">
             <Paperclip className="h-5 w-5" />
           </Button>
           <Input
-            placeholder="Chiedi all'assistente..."
+            placeholder={t("chat.placeholder")}
             className="border-none shadow-none focus-visible:ring-0 bg-transparent flex-1 text-sm h-10"
             value={input}
             onChange={(e) => setInput(e.target.value)}

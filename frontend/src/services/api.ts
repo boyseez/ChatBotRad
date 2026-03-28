@@ -27,7 +27,8 @@ if (isMockEnabled) {
         email: `${username}@example.com`, 
         firstName: username.charAt(0).toUpperCase() + username.slice(1), 
         lastName: 'Demo', 
-        roles: username === 'admin' ? ['ROLE_ADMIN', 'ROLE_USER'] : ['ROLE_USER'] 
+        roles: username === 'admin' ? ['ROLE_ADMIN', 'ROLE_USER'] : ['ROLE_USER'],
+        language: username === 'admin' ? 'en' : 'it' // Admin in inglese, User in italiano
       };
       localStorage.setItem('mock_user', JSON.stringify(user));
       return [200, user];

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import type { RootState } from "@/store";
 import { logoutSuccess } from "@/store/slices/authSlice";
 import { setActiveChat, setChatLoading, setMessages } from "@/store/slices/chatSlice";
@@ -64,7 +65,9 @@ import {
   Sun,
   Moon,
   Monitor,
-  Check
+  Check,
+  Languages,
+  Globe
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -82,6 +85,7 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
+  const { t, i18n } = useTranslation();
   const { user } = useSelector((state: RootState) => state.auth);
   const { activeChatId } = useSelector((state: RootState) => state.chat);
   const { theme, setTheme } = useTheme();
@@ -109,6 +113,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     } catch (error) {
       dispatch(logoutSuccess()); 
     }
+  };
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
   };
 
   const handleNewChat = () => {
@@ -170,25 +178,25 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <SidebarContent>
           {isAdmin ? (
             <SidebarGroup>
-              <SidebarGroupLabel className="px-4 py-2 text-xs font-bold text-muted-foreground/70 uppercase tracking-widest">Amministrazione</SidebarGroupLabel>
+              <SidebarGroupLabel className="px-4 py-2 text-xs font-bold text-muted-foreground/70 uppercase tracking-widest">{t("layout.administration")}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
-                    <SidebarMenuButton tooltip="Dashboard Generale">
+                    <SidebarMenuButton tooltip={t("layout.dashboard")}>
                       <LayoutDashboard className="h-4 w-4 text-primary" />
-                      <span className="font-medium text-foreground text-sm">Dashboard</span>
+                      <span className="font-medium text-foreground text-sm">{t("layout.dashboard")}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton tooltip="Gestione Utenti">
+                    <SidebarMenuButton tooltip={t("layout.users")}>
                       <Users className="h-4 w-4 text-primary" />
-                      <span className="font-medium text-foreground text-sm">Utenti</span>
+                      <span className="font-medium text-foreground text-sm">{t("layout.users")}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton tooltip="Knowledge Base">
+                    <SidebarMenuButton tooltip={t("layout.documents")}>
                       <Database className="h-4 w-4 text-primary" />
-                      <span className="font-medium text-foreground text-sm">Documenti</span>
+                      <span className="font-medium text-foreground text-sm">{t("layout.documents")}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -201,12 +209,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <SidebarMenu>
                     <SidebarMenuItem>
                       <SidebarMenuButton 
-                        tooltip="Inizia una nuova conversazione"
+                        tooltip={t("layout.new_chat")}
                         onClick={handleNewChat}
-                        className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground shadow-md h-10 font-bold justify-center md:justify-start ring-1 ring-primary/20"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md h-10 font-bold justify-center md:justify-start ring-1 ring-primary/20"
                       >
                         <Plus className="h-4 w-4 shrink-0 stroke-[3px]" />
-                        <span className="group-data-[collapsible=icon]:hidden ml-2 text-sm">New Chat</span>
+                        <span className="group-data-[collapsible=icon]:hidden ml-2 text-sm">{t("layout.new_chat")}</span>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   </SidebarMenu>
@@ -215,7 +223,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
               <SidebarGroup>
                 <div className="flex items-center justify-between px-4 py-2 group-data-[collapsible=icon]:hidden">
-                  <SidebarGroupLabel className="p-0 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-[0.2em]">Cronologia</SidebarGroupLabel>
+                  <SidebarGroupLabel className="p-0 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-[0.2em]">{t("layout.history")}</SidebarGroupLabel>
                   {chats.length > 0 && (
                     <AlertDialog>
                       <AlertDialogTrigger 
@@ -224,19 +232,17 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         }
                       >
                         <Trash2 className="h-3 w-3" />
-                        Svuota
+                        {t("layout.clear_history")}
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Sei assolutamente sicuro?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Questa azione eliminerà permanentemente l'intera cronologia delle tue conversazioni.
-                          </AlertDialogDescription>
+                          <AlertDialogTitle>{t("layout.confirm_title")}</AlertDialogTitle>
+                          <AlertDialogDescription>{t("layout.confirm_delete_all")}</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Annulla</AlertDialogCancel>
+                          <AlertDialogCancel>{t("layout.cancel")}</AlertDialogCancel>
                           <AlertDialogAction onClick={clearAllChats} className="bg-destructive text-destructive-foreground hover:bg-destructive/90 font-bold">
-                            Elimina Tutto
+                            {t("layout.delete")}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -263,26 +269,20 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         <AlertDialog>
                           <AlertDialogTrigger
                             render={
-                              <SidebarMenuAction
-                                showOnHover
-                                className="hover:text-destructive text-muted-foreground/40"
-                              />
+                              <SidebarMenuAction showOnHover className="hover:text-destructive text-muted-foreground/40" />
                             }
                           >
                             <X className="h-4 w-4" />
-                            <span className="sr-only">Elimina chat</span>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Eliminare questa chat?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Stai per eliminare la conversazione "{chat.title}".
-                              </AlertDialogDescription>
+                              <AlertDialogTitle>{t("layout.delete")}?</AlertDialogTitle>
+                              <AlertDialogDescription>{t("layout.confirm_delete_chat", { title: chat.title })}</AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Annulla</AlertDialogCancel>
+                              <AlertDialogCancel>{t("layout.cancel")}</AlertDialogCancel>
                               <AlertDialogAction onClick={() => deleteSingleChat(chat.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                                Elimina
+                                {t("layout.delete")}
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -292,7 +292,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     {chats.length === 0 && (
                       <div className="px-4 py-8 text-[11px] text-muted-foreground italic group-data-[collapsible=icon]:hidden text-center opacity-50 flex flex-col items-center gap-2">
                         <History className="h-6 w-6 opacity-20" />
-                        Nessuna chat recente
+                        {t("layout.history_empty")}
                       </div>
                     )}
                   </SidebarMenu>
@@ -317,7 +317,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden ml-1">
                     <span className="truncate font-bold text-foreground">{user?.firstName} {user?.lastName}</span>
                     <span className="truncate text-[10px] text-muted-foreground uppercase font-black tracking-widest opacity-60">
-                      {getRoleLabel(user?.roles)}
+                      {t(`roles.${user?.roles?.includes("ROLE_ADMIN") ? "ROLE_ADMIN" : "ROLE_USER"}`)}
                     </span>
                   </div>
                   <ChevronUp className="ml-auto h-4 w-4 group-data-[collapsible=icon]:hidden opacity-50" />
@@ -333,7 +333,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         <div className="grid flex-1 text-left text-sm leading-tight">
                           <span className="truncate font-semibold">{user?.username}</span>
                           <span className="truncate text-xs text-muted-foreground">
-                            {getRoleLabel(user?.roles)} • {user?.email}
+                            {t(`roles.${user?.roles?.includes("ROLE_ADMIN") ? "ROLE_ADMIN" : "ROLE_USER"}`)} • {user?.email}
                           </span>
                         </div>
                       </div>
@@ -343,7 +343,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
                       <UserIcon className="mr-2 h-4 w-4 text-muted-foreground" />
-                      Il mio Profilo
+                      {t("layout.profile")}
                     </DropdownMenuItem>
                     
                     <DropdownMenuSub>
@@ -351,36 +351,55 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         {theme === 'light' && <Sun className="mr-2 h-4 w-4 text-muted-foreground" />}
                         {theme === 'dark' && <Moon className="mr-2 h-4 w-4 text-muted-foreground" />}
                         {theme === 'system' && <Monitor className="mr-2 h-4 w-4 text-muted-foreground" />}
-                        Aspetto
+                        {t("layout.appearance")}
                       </DropdownMenuSubTrigger>
                       <DropdownMenuSubContent>
                         <DropdownMenuItem onClick={() => setTheme("light")}>
                           <Sun className="mr-2 h-4 w-4" />
-                          Chiaro
+                          {t("layout.theme_light")}
                           {theme === "light" && <Check className="ml-auto h-4 w-4" />}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setTheme("dark")}>
                           <Moon className="mr-2 h-4 w-4" />
-                          Scuro
+                          {t("layout.theme_dark")}
                           {theme === "dark" && <Check className="ml-auto h-4 w-4" />}
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setTheme("system")}>
                           <Monitor className="mr-2 h-4 w-4" />
-                          Sistema
+                          {t("layout.theme_system")}
                           {theme === "system" && <Check className="ml-auto h-4 w-4" />}
+                        </DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuSub>
+
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger>
+                        <Languages className="mr-2 h-4 w-4 text-muted-foreground" />
+                        {t("settings.language")}
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuItem onClick={() => changeLanguage("it")}>
+                          <Globe className="mr-2 h-4 w-4" />
+                          {t("settings.lang_it")}
+                          {i18n.language === "it" && <Check className="ml-auto h-4 w-4" />}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => changeLanguage("en")}>
+                          <Globe className="mr-2 h-4 w-4" />
+                          {t("settings.lang_en")}
+                          {i18n.language === "en" && <Check className="ml-auto h-4 w-4" />}
                         </DropdownMenuItem>
                       </DropdownMenuSubContent>
                     </DropdownMenuSub>
 
                     <DropdownMenuItem>
                       <Settings className="mr-2 h-4 w-4 text-muted-foreground" />
-                      Impostazioni
+                      {t("layout.settings")}
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="text-destructive font-bold">
                     <LogOut className="mr-2 h-4 w-4" />
-                    Esci dal sistema
+                    {t("layout.logout")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -397,12 +416,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             {isAdmin ? (
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-primary" />
-                Area Amministratore
+                {t("layout.admin_area")}
               </div>
             ) : (
               <div className="flex items-center gap-2 italic">
                 <MessageSquare className={cn("h-4 w-4", activeChatId ? "text-primary" : "")} />
-                {activeChatId ? `Conversazione #${activeChatId}` : "Nuova Conversazione"}
+                {activeChatId ? `${t("layout.new_conversation")} #${activeChatId}` : t("layout.new_conversation")}
               </div>
             )}
           </div>
@@ -420,10 +439,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   }
                 >
                   <Power className="h-5 w-5" />
-                  <span className="sr-only">Logout</span>
+                  <span className="sr-only">{t("layout.logout")}</span>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Esci dal sistema</p>
+                  <p>{t("layout.logout")}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

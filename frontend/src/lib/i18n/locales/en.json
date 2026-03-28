@@ -1,0 +1,60 @@
+{
+  "auth": {
+    "login_title": "Login to your account",
+    "login_subtitle": "Enter your credentials below to access.",
+    "username": "Username",
+    "password": "Password",
+    "forgot_password": "Forgot your password?",
+    "login_button": "Login",
+    "logging_in": "Logging in...",
+    "error_invalid": "Invalid credentials or network error",
+    "sso_button": "Corporate SSO (Keycloak)",
+    "mock_info": "Set VITE_USE_MOCKS=true to test with 'admin' or 'user' usernames."
+  },
+  "layout": {
+    "administration": "Administration",
+    "general": "General",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "documents": "Documents",
+    "analytics": "Analytics",
+    "new_chat": "New Chat",
+    "history": "History",
+    "history_empty": "No recent chats",
+    "clear_history": "Clear",
+    "profile": "My Profile",
+    "appearance": "Appearance",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "theme_system": "System",
+    "settings": "Settings",
+    "logout": "Logout",
+    "admin_area": "Admin Area",
+    "user_area": "User Area",
+    "new_conversation": "New Conversation",
+    "confirm_title": "Are you absolutely sure?",
+    "confirm_delete_all": "This action will permanently delete your entire conversation history.",
+    "confirm_delete_chat": "You are about to delete the conversation \"{{title}}\".",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "chat": {
+    "welcome": "Hello {{name}}! I'm ready to assist you.",
+    "typing": "Assistant is typing",
+    "placeholder": "Ask the assistant...",
+    "new_chat_desc": "Type 'video' to see a video or 'riferimenti' for PDF manuals.",
+    "video_title": "Here is the requested tutorial:",
+    "reference_title": "I found information in the following manuals:",
+    "analysis_complete": "Analysis completed for your request."
+  },
+  "roles": {
+    "ROLE_ADMIN": "Administrator",
+    "ROLE_USER": "Employee",
+    "guest": "Guest"
+  },
+  "settings": {
+    "language": "Language",
+    "lang_it": "Italian",
+    "lang_en": "English"
+  }
+}

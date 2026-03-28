@@ -1,0 +1,60 @@
+{
+  "auth": {
+    "login_title": "Accedi al tuo account",
+    "login_subtitle": "Inserisci qui sotto le tue credenziali per accedere.",
+    "username": "Username",
+    "password": "Password",
+    "forgot_password": "Hai dimenticato la password?",
+    "login_button": "Accedi",
+    "logging_in": "Accesso in corso...",
+    "error_invalid": "Credenziali non valide o errore di rete",
+    "sso_button": "SSO Aziendale (Keycloak)",
+    "mock_info": "Configura VITE_USE_MOCKS=true per testare con username 'admin' o 'user'."
+  },
+  "layout": {
+    "administration": "Amministrazione",
+    "general": "Generale",
+    "dashboard": "Dashboard",
+    "users": "Utenti",
+    "documents": "Documenti",
+    "analytics": "Analisi",
+    "new_chat": "Nuova Chat",
+    "history": "Cronologia",
+    "history_empty": "Nessuna chat recente",
+    "clear_history": "Svuota",
+    "profile": "Il mio Profilo",
+    "appearance": "Aspetto",
+    "theme_light": "Chiaro",
+    "theme_dark": "Scuro",
+    "theme_system": "Sistema",
+    "settings": "Impostazioni",
+    "logout": "Esci dal sistema",
+    "admin_area": "Area Amministratore",
+    "user_area": "Area Utente",
+    "new_conversation": "Nuova Conversazione",
+    "confirm_title": "Sei assolutamente sicuro?",
+    "confirm_delete_all": "Questa azione eliminerà permanentemente l'intera cronologia delle tue conversazioni.",
+    "confirm_delete_chat": "Stai per eliminare la conversazione \"{{title}}\".",
+    "cancel": "Annulla",
+    "delete": "Elimina"
+  },
+  "chat": {
+    "welcome": "Ciao {{name}}! Sono pronto ad assisterti.",
+    "typing": "L'assistente sta scrivendo",
+    "placeholder": "Chiedi all'assistente...",
+    "new_chat_desc": "Scrivi 'video' per vedere un video o 'riferimenti' per i manuali PDF.",
+    "video_title": "Ecco il tutorial richiesto:",
+    "reference_title": "Ho trovato le informazioni nei seguenti manuali:",
+    "analysis_complete": "Analisi completata per la tua richiesta."
+  },
+  "roles": {
+    "ROLE_ADMIN": "Amministratore",
+    "ROLE_USER": "Dipendente",
+    "guest": "Ospite"
+  },
+  "settings": {
+    "language": "Lingua",
+    "lang_it": "Italiano",
+    "lang_en": "Inglese"
+  }
+}
